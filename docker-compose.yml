@@ -1,0 +1,10 @@
+version: "3.3"
+services:
+  db:
+    image: postgres:14.2-alpine
+    ports:
+      - "30100:5432"
+    environment:
+      POSTGRES_USER: knst
+      POSTGRES_PASSWORD: knst
+      POSTGRES_DB: knst
