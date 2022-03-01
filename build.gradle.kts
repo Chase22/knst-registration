@@ -6,6 +6,8 @@ plugins {
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
     kotlin("plugin.jpa") version "1.6.10"
+    id("jacoco")
+    id("org.sonarqube") version "3.3"
 }
 
 group = "de.chasenet"
@@ -60,4 +62,18 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+    }
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "Chase22_knst-registration")
+        property("sonar.organization", "chase22")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
 }
