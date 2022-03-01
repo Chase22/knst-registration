@@ -16,7 +16,7 @@ data class Attendee(
 ) : Serializable {
     constructor(entity: AttendeeEntity) : this(
         entity.id!!,
-        entity.meetup,
+        entity.meetupId,
         entity.username,
         entity.firstName,
         entity.lastName,

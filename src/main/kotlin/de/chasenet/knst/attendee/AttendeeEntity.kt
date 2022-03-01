@@ -7,10 +7,11 @@ import javax.persistence.*
 @Table(name = "attendees")
 class AttendeeEntity(
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     val id: Int? = null,
 
-    @Column(name = "meetup_id") val meetup: Int,
+    @Column(name = "meetup_id") val meetupId: Int,
     @Column(name = "username", nullable = false) val username: String,
     @Column(name = "first_name") val firstName: String?,
     @Column(name = "last_name") val lastName: String?,
