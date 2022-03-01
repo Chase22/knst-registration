@@ -14,9 +14,11 @@ import kotlinx.coroutines.withContext
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
+import org.springframework.test.context.ActiveProfiles
 import java.time.LocalDate
 
 @SpringBootTest
+@ActiveProfiles("test")
 class MeetupControllerTest(
     meetupRepository: MeetupRepository,
     attendeeRepository: AttendeeRepository,
@@ -56,7 +58,14 @@ class MeetupControllerTest(
 
         val response = meetupController.getMeetupById(id)
         response.statusCode shouldBe HttpStatus.OK
-        response.body shouldBe meetup
+        with(response.body!!) {
+            id shouldBe meetup.id
+            active shouldBe meetup.active
+            closed shouldBe meetup.closed
+            extendedRegistration shouldBe meetup.extendedRegistration
+            date shouldBe meetup.date
+            attendees.sortedBy { it.id } shouldBe meetup.attendees.sortedBy { it.id }
+        }
     }
 
     "Get /api/meetups/{id} returns 404 for an unknown id" {

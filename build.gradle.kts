@@ -51,6 +51,8 @@ dependencies {
     testImplementation("io.ktor:ktor-client-cio:$ktorVersion")
     testImplementation("io.ktor:ktor-client-jackson:$ktorVersion")
     testImplementation("io.ktor:ktor-client-logging:$ktorVersion")
+
+    testImplementation("org.testcontainers:postgresql:1.16.3")
 }
 
 tasks.withType<KotlinCompile> {
