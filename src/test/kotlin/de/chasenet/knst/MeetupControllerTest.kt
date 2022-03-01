@@ -64,6 +64,7 @@ class MeetupControllerTest(
             closed shouldBe meetup.closed
             extendedRegistration shouldBe meetup.extendedRegistration
             date shouldBe meetup.date
+            maxAttendees shouldBe meetup.maxAttendees
             attendees.sortedBy { it.id } shouldBe meetup.attendees.sortedBy { it.id }
         }
     }
@@ -82,7 +83,8 @@ class MeetupControllerTest(
             active = false,
             closed = true,
             date = LocalDate.of(2021, 12, 12),
-            extendedRegistration = false
+            extendedRegistration = false,
+            maxAttendees = 50
         )
 
         val response = meetupController.addNewMeetup(newMeetup)
@@ -94,6 +96,7 @@ class MeetupControllerTest(
             closed shouldBe newMeetup.closed
             extendedRegistration shouldBe newMeetup.extendedRegistration
             date shouldBe newMeetup.date
+            maxAttendees shouldBe newMeetup.maxAttendees
         }
     }
 
@@ -102,7 +105,7 @@ class MeetupControllerTest(
             meetupRepository.save(meetup().toEntity())
         }.let(::Meetup)
 
-        val updatedMeetup = meetup.copy(closed = true, active = true)
+        val updatedMeetup = meetup.copy(closed = true, active = true, maxAttendees = 50)
         meetupController.updateMeeting(updatedMeetup, updatedMeetup.id)
 
         with(withContext(Dispatchers.IO) {
@@ -113,6 +116,7 @@ class MeetupControllerTest(
             active shouldBe updatedMeetup.active
             closed shouldBe updatedMeetup.closed
             extendedRegistration shouldBe updatedMeetup.extendedRegistration
+            maxAttendees shouldBe updatedMeetup.maxAttendees
         }
     }
 
@@ -154,6 +158,7 @@ fun meetup(
     active: Boolean = false,
     closed: Boolean = false,
     date: LocalDate = LocalDate.of(2022, 2, 2),
-    extendedRegistration: Boolean = false
-) = Meetup(id, active, closed, date, extendedRegistration)
+    extendedRegistration: Boolean = false,
+    maxAttendees: Int? = null
+) = Meetup(id, active, closed, date, extendedRegistration, maxAttendees)
 
