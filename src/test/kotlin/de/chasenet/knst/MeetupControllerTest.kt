@@ -121,6 +121,18 @@ class MeetupControllerTest(
 
         meetupController.updateMeeting(meetup(id = 5), 1).statusCode shouldBe HttpStatus.BAD_REQUEST
     }
+
+    "DELETE /api/meetups/{id} should delete a given id" {
+        val meetup = meetup()
+        val id = withContext(Dispatchers.IO) {
+            meetupRepository.save(meetup.toEntity())
+        }.id!!
+
+        meetupController.deleteMeetup(id) shouldBe HttpStatus.OK
+        withContext(Dispatchers.IO) {
+            meetupRepository.existsById(id)
+        } shouldBe false
+    }
 })
 
 fun setupAttendees(repository: AttendeeRepository, meetupId: Int): List<Attendee> {
