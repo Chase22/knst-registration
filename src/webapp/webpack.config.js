@@ -7,7 +7,7 @@ const prod = mode === 'production';
 
 module.exports = {
     entry: {
-        'build/bundle': ['./src/main.ts']
+        'build/bundle': ['./src/ui/main.ts']
     },
     resolve: {
         alias: {
