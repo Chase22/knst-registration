@@ -1,7 +1,5 @@
 package de.chasenet.knst
 
-import de.chasenet.knst.attendee.Attendee
-import de.chasenet.knst.attendee.AttendeeEntity
 import de.chasenet.knst.attendee.AttendeeRepository
 import de.chasenet.knst.meetup.Meetup
 import de.chasenet.knst.meetup.MeetupController
@@ -40,7 +38,25 @@ class MeetupControllerTest(
     "GET /api/meetups should return all meetups with no pagination" {
         val testMeetups = setupMeetups(meetupRepository)
 
-        meetupController.getMeetups(null).content shouldBe testMeetups
+        val meetups = meetupController.getMeetups(null).content
+
+        meetups.size shouldBe testMeetups.size
+
+        meetups.forEach {
+            val testMeetup = testMeetups.find { test -> it.id == test.id }!!
+
+            with(it) {
+                id shouldBe testMeetup.id
+                active shouldBe testMeetup.active
+                closed shouldBe testMeetup.closed
+                date shouldBe testMeetup.date
+                extendedRegistration shouldBe testMeetup.extendedRegistration
+                maxAttendees shouldBe testMeetup.maxAttendees
+                attendees shouldBe testMeetup.attendees
+            }
+        }
+
+        meetups.sortedBy { it.id } shouldBe testMeetups.sortedBy { it.id }
     }
 
     "GET /api/meetups should return paged meetups with pagination" {
@@ -121,7 +137,9 @@ class MeetupControllerTest(
     }
 
     "PUT /api/meetups/{id} will reject a body with a wrong id" {
-        testMeetups().forEach { meetupRepository.save(it.toEntity()) }
+        Array(20) {
+            meetup(id = it + 1, date = LocalDate.of(2022, 1, 1).plusMonths(it.toLong()))
+        }.toList().forEach { meetupRepository.save(it.toEntity()) }
 
         meetupController.updateMeeting(meetup(id = 5), 1).statusCode shouldBe HttpStatus.BAD_REQUEST
     }
@@ -139,26 +157,4 @@ class MeetupControllerTest(
     }
 })
 
-fun setupAttendees(repository: AttendeeRepository, meetupId: Int): List<Attendee> {
-    return Array(10) {
-        repository.save(AttendeeEntity(it, meetupId, it.toString(), null, null, null, LocalDate.now(), "ATTENDING", 0))
-    }.map(::Attendee).toList()
-}
-
-fun setupMeetups(repository: MeetupRepository): List<Meetup> =
-    testMeetups().map { repository.save(it.toEntity()) }.map(::Meetup)
-
-
-fun testMeetups() = Array(20) {
-    meetup(id = it + 1, date = LocalDate.of(2022, 1, 1).plusMonths(it.toLong()))
-}.toList()
-
-fun meetup(
-    id: Int = 1,
-    active: Boolean = false,
-    closed: Boolean = false,
-    date: LocalDate = LocalDate.of(2022, 2, 2),
-    extendedRegistration: Boolean = false,
-    maxAttendees: Int? = null
-) = Meetup(id, active, closed, date, extendedRegistration, maxAttendees)
 

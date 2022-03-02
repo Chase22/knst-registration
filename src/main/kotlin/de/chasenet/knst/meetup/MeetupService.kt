@@ -13,4 +13,5 @@ class MeetupService(
     fun createNew(newMeetup: NewMeetup) = meetupRepository.save(newMeetup.toEntity()).let(::Meetup)
     fun update(meetup: Meetup) = meetupRepository.save(meetup.toEntity()).let(::Meetup)
     fun deleteById(id: Int) = meetupRepository.deleteById(id)
+    fun existsById(meetupId: Int): Boolean = meetupRepository.existsById(meetupId)
 }

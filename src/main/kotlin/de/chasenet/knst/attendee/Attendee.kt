@@ -5,7 +5,7 @@ import java.time.LocalDate
 
 data class Attendee(
     val id: Int,
-    val meetup: Int,
+    val meetupId: Int,
     val username: String,
     val firstName: String?,
     val lastName: String?,
@@ -28,7 +28,7 @@ data class Attendee(
 
     fun toEntity() = AttendeeEntity(
         id,
-        meetup,
+        meetupId,
         username,
         firstName,
         lastName,
@@ -40,7 +40,6 @@ data class Attendee(
 }
 
 data class NewAttendee(
-    val meetup: Int,
     val username: String,
     val firstName: String?,
     val lastName: String?,
@@ -49,9 +48,9 @@ data class NewAttendee(
     val attendeeStatus: String,
     val companies: Int
 ) {
-    fun toEntity() = AttendeeEntity(
+    fun toEntity(meetupId: Int) = AttendeeEntity(
         null,
-        meetup,
+        meetupId,
         username,
         firstName,
         lastName,
