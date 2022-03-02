@@ -1,30 +1,34 @@
 <script lang="ts">
-	export let name: string;
+    import TopAppBar, {Title} from '@smui/top-app-bar'
+    import {Route, Router} from "svelte-navigator";
+    import MeetupsListPage from "./pages/MeetupsListPage.svelte";
+    import MeetupPage from "./pages/MeetupPage.svelte";
+    import Redirect from "./Redirect.svelte";
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+    <TopAppBar variant="static"><Title>KNST Anmeldung</Title></TopAppBar>
+    <Router>
+        <Route path="/">
+            <Redirect to="/meetup"/>
+        </Route>
+        <Route path="meetup/*">
+            <Route path="/" component={MeetupsListPage}/>
+            <Route path=":id" component={MeetupPage}/>
+        </Route>
+    </Router>
 </main>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
+    main {
+        text-align: center;
+        max-width: 240px;
+        margin: 0 auto;
+    }
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+    @media (min-width: 640px) {
+        main {
+            max-width: none;
+        }
+    }
 </style>
