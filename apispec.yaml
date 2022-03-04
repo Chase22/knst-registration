@@ -1,0 +1,278 @@
+openapi: 3.0.3
+info:
+  title: Knst Registration
+  description: Knst Registration
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:30000'
+
+tags:
+  - name: meetups
+    description: Meetup API
+  - name: attendees
+    description: Attendee API
+paths:
+  "/api/meetups":
+    get:
+      operationId: getMeetups
+      tags:
+        - meetups
+      parameters:
+        - name: pagable
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/Pageable"
+      responses:
+        200:
+          description: The meetups
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/meetupPage'
+    post:
+      operationId: createMeetup
+      tags:
+        - meetups
+      requestBody:
+        description: The meetup to be created
+        required: true
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/meetup"
+      responses:
+        201:
+          description: The new meeting was created successfully
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/meetup"
+  "/api/meetup/{id}":
+    parameters:
+      - name: id
+        in: path
+        description: The id of the Meetup
+        required: true
+        allowEmptyValue: false
+        schema:
+          type: integer
+    get:
+      operationId: getMeetupById
+      tags:
+        - meetups
+      description: Getting a single meetup
+      responses:
+        200:
+          description: The meetup was found
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/meetup"
+        404:
+          description: No meetup was found for the given id
+    put:
+      operationId: updateMeetup
+      tags:
+        - meetups
+      description: Updating a single meetup
+      responses:
+        200:
+          description: The meetup was updated
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/meetup"
+    delete:
+      operationId: deleteMeetup
+      tags:
+        - meetups
+      description: Delete a meetup
+      responses:
+        200:
+          description: The meetup was deleted
+
+  "/api/meetups/{meetupId}/attendee":
+    parameters:
+      - name: meetupId
+        in: path
+        description: The id of the Meetup
+        required: true
+        allowEmptyValue: false
+        schema:
+          type: integer
+    get:
+      operationId: getAttendeesByMeetup
+      description: Get attendes for a meetup
+      tags:
+        - attendees
+      responses:
+        200:
+          description: The attendees for the given meetup
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/attendeePage"
+    post:
+      operationId: createAttendee
+      description: Adds an attendee to a given meetup
+      tags:
+        - attendees
+      responses:
+        200:
+          description: The attendee was created
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/attendee"
+        404:
+          description: No meetup for the given id exists
+        412:
+          description: The maximum number of attendees was exceeded
+  "/api/attendee/{id}":
+    parameters:
+      - name: id
+        in: path
+        description: The id of the Meetup
+        required: true
+        allowEmptyValue: false
+        schema:
+          type: integer
+    get:
+      operationId: getAttendeeById
+      tags:
+        - attendees
+      description: Gets the attendee with the given Id
+      responses:
+        200:
+          description: The attendee with the given Id
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/attendee"
+        404:
+          description: No attendee was found for the given id
+    put:
+      operationId: updateAttendee
+      tags:
+        - attendees
+      description: Updates a given attendee
+      responses:
+        200:
+          description: The attendee was updated
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/attendee"
+    delete:
+      operationId: deleteAttendee
+      tags:
+        - attendees
+      description: Deletes a given attendee
+      responses:
+        200:
+          description: The attendee was deleted
+
+components:
+  schemas:
+    meetup:
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        active:
+          type: boolean
+        closed:
+          type: boolean
+        date:
+          type: string
+          format: date
+        extendedRegistration:
+          type: boolean
+        maxAttendees:
+          type: integer
+          nullable: true
+        attendees:
+          type: array
+          readOnly: true
+          items:
+            $ref: "#/components/schemas/attendee"
+      required:
+        - id,
+        - active
+        - closed
+        - extendedRegistration
+        - date
+    attendee:
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        meetupId:
+          type: integer
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        registryDate:
+          type: string
+          format: date
+        attendeeStatus:
+          type: string
+          enum:
+            - ATTENDING
+            - UNKNOWN
+            - NOT_ATTENDING
+        companies:
+          type: integer
+          minimum: 0
+          maximum: 2
+      required:
+        - meetupId
+        - username
+        - registryDate
+        - attendeeStatus
+        - companies
+    Page:
+      description: A minimal page response without content
+      type: object
+      properties:
+        number:
+          type: integer
+        size:
+          type: integer
+        totalElements:
+          type: integer
+        totalPages:
+          type: integer
+    Pageable:
+      description: minimal Pageable query parameters
+      type: object
+      properties:
+        page:
+          type: integer
+        size:
+          type: integer
+    meetupPage:
+      description: A page with meetups
+      allOf:
+        - $ref: "#/components/schemas/Page"
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/meetup"
+    attendeePage:
+      description: A page with attendees
+      allOf:
+        - $ref: "#/components/schemas/Page"
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/attendee"
