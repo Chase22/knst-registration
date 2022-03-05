@@ -8,3 +8,8 @@ services:
       POSTGRES_USER: knst
       POSTGRES_PASSWORD: knst
       POSTGRES_DB: knst
+  mail:
+    image: reachfive/fake-smtp-server
+    ports:
+      - "30200:1025"
+      - "30201:1080"

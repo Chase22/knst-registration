@@ -1,4 +1,4 @@
-package de.chasenet.knst
+package de.chasenet.testutils
 
 import de.chasenet.knst.attendee.Attendee
 import de.chasenet.knst.attendee.AttendeeRepository

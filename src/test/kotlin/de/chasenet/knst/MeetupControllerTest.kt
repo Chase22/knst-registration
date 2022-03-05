@@ -5,6 +5,9 @@ import de.chasenet.knst.meetup.Meetup
 import de.chasenet.knst.meetup.MeetupController
 import de.chasenet.knst.meetup.MeetupRepository
 import de.chasenet.knst.meetup.NewMeetup
+import de.chasenet.testutils.meetup
+import de.chasenet.testutils.setupAttendees
+import de.chasenet.testutils.setupMeetups
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.Dispatchers

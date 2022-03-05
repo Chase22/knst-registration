@@ -3,6 +3,10 @@ package de.chasenet.knst
 import de.chasenet.knst.attendee.*
 import de.chasenet.knst.meetup.Meetup
 import de.chasenet.knst.meetup.MeetupRepository
+import de.chasenet.testutils.attendee
+import de.chasenet.testutils.meetup
+import de.chasenet.testutils.setupAttendee
+import de.chasenet.testutils.setupAttendees
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe

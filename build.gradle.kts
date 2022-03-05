@@ -29,6 +29,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.flywaydb:flyway-core")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -36,6 +37,8 @@ dependencies {
     implementation("org.springframework.session:spring-session-core")
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
     runtimeOnly("org.postgresql:postgresql")
+
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")

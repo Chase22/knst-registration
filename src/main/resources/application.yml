@@ -3,6 +3,10 @@ spring:
     username: knst
     password: knst
     url: jdbc:postgresql://localhost:30100/knst
+  mail:
+    host: localhost
+    port: 30200
+
 
 server:
   port: 30000
