@@ -1,7 +1,19 @@
 <script lang="ts">
-    export let id: number
+    import {meetupsApi} from "../Context";
+    import CircularProgress from '@smui/circular-progress';
+    import AttendeeList from "../components/AttendeeList/AttendeeList.svelte";
+
+    export let id: number = 0
+
+    const meetupPromise = meetupsApi.getMeetupById(id)
 </script>
 
 <div>
-    MeetupPage {id}
+    {#await meetupPromise}
+        <div style="display: flex; justify-content: center">
+            <CircularProgress style="height: 64px; width: 64px;" indeterminate/>
+        </div>
+    {:then response}
+        <AttendeeList attendees={response.data.attendees}/>
+    {/await}
 </div>

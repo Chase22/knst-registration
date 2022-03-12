@@ -48,7 +48,7 @@ paths:
             "*/*":
               schema:
                 $ref: "#/components/schemas/meetup"
-  "/api/meetup/{id}":
+  "/api/meetups/{id}":
     parameters:
       - name: id
         in: path
