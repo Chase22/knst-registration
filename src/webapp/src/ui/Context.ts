@@ -1,4 +1,4 @@
-import { AttendeesApi, Configuration, MeetupsApi } from "../generated";
+import { AttendeesApi, Configuration, MeetupsApi } from "generated-client";
 
 const configuration = new Configuration({ basePath: "http://localhost:8080" });
 

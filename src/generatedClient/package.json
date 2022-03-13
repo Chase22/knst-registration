@@ -1,0 +1,20 @@
+{
+  "name": "generated-client",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "license": "GPL-3.0-or-later",
+  "private": true,
+  "scripts": {
+    "generate-client": "openapi-generator-cli generate -i ../../apispec.yaml -o src -g typescript-axios",
+    "prepare": "yarn generate-client",
+    "build": "yarn tsc -p ./tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.2",
+    "@openapitools/openapi-generator-cli": "^2.4.26"
+  },
+  "dependencies": {
+    "axios": "^0.26.1"
+  }
+}

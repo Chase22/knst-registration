@@ -3,19 +3,18 @@
   "version": "1.0.0",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.4.26",
+    "@smui/circular-progress": "^6.0.0-beta.15",
     "@smui/common": "^6.0.0-beta.15",
+    "@smui/icon-button": "^6.0.0-beta.15",
     "@smui/select": "^6.0.0-beta.15",
     "@smui/top-app-bar": "^6.0.0-beta.15",
-    "@smui/data-table": "^6.0.0-beta.15",
-    "@smui/icon-button": "^6.0.0-beta.15",
-    "smui-theme": "^6.0.0-beta.15",
     "@tsconfig/svelte": "^3.0.0",
     "@types/node": "^17.0.21",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.1",
     "mini-css-extract-plugin": "^2.6.0",
     "prettier": "^2.5.1",
+    "smui-theme": "^6.0.0-beta.15",
     "svelte": "^3.31.2",
     "svelte-check": "^2.4.5",
     "svelte-loader": "^3.1.2",
@@ -31,13 +30,13 @@
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "webpack serve --content-base public",
     "validate": "svelte-check",
-    "prepare": "mkdir -p public/build && npm run smui-theme-light && npm run smui-theme-dark && npm run generate-client",
+    "prepare": "mkdir -p public/build && npm run smui-theme-light && npm run smui-theme-dark",
     "smui-theme-light": "smui-theme compile public/build/smui.css -i src/ui/theme",
-    "smui-theme-dark": "smui-theme compile public/build/smui-dark.css -i src/ui/theme/dark",
-    "generate-client": "openapi-generator-cli generate -i ../../apispec.yaml -o src/generated -g typescript-axios"
+    "smui-theme-dark": "smui-theme compile public/build/smui-dark.css -i src/ui/theme/dark"
   },
   "dependencies": {
     "axios": "^0.26.0",
+    "generated-client": "../generatedClient",
     "svelte-navigator": "^3.1.5"
   }
 }
