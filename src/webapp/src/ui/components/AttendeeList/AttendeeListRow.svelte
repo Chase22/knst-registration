@@ -1,6 +1,6 @@
 <script lang="ts">
     import {Row, Cell} from '@smui/data-table';
-    import {Attendee} from "../../../generated";
+    import type {Attendee} from "../../../generated";
 
     export let attendee: Attendee
 </script>
