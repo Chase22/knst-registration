@@ -10,9 +10,9 @@
     <TopAppBar variant="static"><Title>KNST Anmeldung</Title></TopAppBar>
     <Router>
         <Route path="/">
-            <Redirect to="/meetup"/>
+            <Redirect to="/ui/meetup"/>
         </Route>
-        <Route path="meetup/*">
+        <Route path="/ui/meetup/*">
             <Route path="/" component={MeetupsListPage}/>
             <Route path=":id" component={MeetupPage}/>
         </Route>

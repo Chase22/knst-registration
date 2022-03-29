@@ -7,7 +7,6 @@ spring:
     host: localhost
     port: 30200
 
-
 server:
   port: 30000
 

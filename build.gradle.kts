@@ -1,4 +1,7 @@
+import com.github.gradle.node.NodeExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.gradle.node.yarn.task.YarnTask
+
 
 plugins {
     id("org.springframework.boot") version "2.6.4"
@@ -8,6 +11,7 @@ plugins {
     kotlin("plugin.jpa") version "1.6.10"
     id("jacoco")
     id("org.sonarqube") version "3.3"
+    id("com.github.node-gradle.node") version "3.2.1"
 }
 
 group = "de.chasenet"
@@ -30,6 +34,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-mail")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.flywaydb:flyway-core")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -84,4 +89,28 @@ sonarqube {
         property("sonar.organization", "chase22")
         property("sonar.host.url", "https://sonarcloud.io")
     }
+}
+
+node {
+    version.set("16.14.0")
+    npmVersion.set("8.3.1")
+    distBaseUrl.set("https://nodejs.org/dist")
+    download.set(true)
+    nodeProjectDir.set(file("$rootDir/src/webapp/knst-frontend"))
+    workDir.set(file("${project.buildDir}/nodejs"))
+}
+
+val yarnBuild by tasks.registering(YarnTask::class) {
+    args.set(listOf("build"))
+    workingDir.set(project.extensions.getByType(NodeExtension::class).nodeProjectDir)
+    inputs.files(
+        fileTree(mapOf(
+            "dir" to "$rootDir/src/webapp/",
+            "include" to "*",
+            "exclude" to listOf("$rootDir/src/webapp/*/build/", "$rootDir/src/webapp/*/node_modules/")
+        )).files
+    )
+    outputs.dirs(
+        listOf("$buildDir/dist/webapp")
+    )
 }

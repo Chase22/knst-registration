@@ -32,7 +32,8 @@
     "validate": "svelte-check",
     "prepare": "mkdir -p public/build && npm run smui-theme-light && npm run smui-theme-dark",
     "smui-theme-light": "smui-theme compile public/build/smui.css -i src/ui/theme",
-    "smui-theme-dark": "smui-theme compile public/build/smui-dark.css -i src/ui/theme/dark"
+    "smui-theme-dark": "smui-theme compile public/build/smui-dark.css -i src/ui/theme/dark",
+    "postbuild": "scripts/copy-dist.sh"
   },
   "dependencies": {
     "axios": "^0.26.0",
